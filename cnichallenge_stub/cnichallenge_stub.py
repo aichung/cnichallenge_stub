@@ -17,11 +17,19 @@ sys.path.append(os.path.dirname(__file__))
 # import the Chris app superclass
 from chrisapp.base import ChrisApp
 
+# Import the example python function that performs random label assignments to data
+from example_python.classification_test_code import classification_random
 
 Gstr_title = """
 
-Generate a title from 
-http://patorjk.com/software/taag/#p=display&f=Doom&t=cnichallenge_stub
+ _____  _   _ _____   _____ _           _ _                       
+/  __ \| \ | |_   _| /  __ \ |         | | |                      
+| /  \/|  \| | | |   | /  \/ |__   __ _| | | ___ _ __   __ _  ___ 
+| |    | . ` | | |   | |   | '_ \ / _` | | |/ _ \ '_ \ / _` |/ _ \
+| \__/\| |\  |_| |_  | \__/\ | | | (_| | | |  __/ | | | (_| |  __/
+ \____/\_| \_/\___/   \____/_| |_|\__,_|_|_|\___|_| |_|\__, |\___|
+                                                        __/ |     
+                                                       |___/      
 
 """
 
@@ -138,6 +146,23 @@ class Cnichalleng_stub(ChrisApp):
         """
         print(Gstr_title)
         print('Version: %s' % self.get_version())
+
+        # ===============================================
+        # Initialising variables
+        # ===============================================
+        inputdir_data = '%s' % (options.inputdir)
+        outputpath = '%s' % (options.outputdir)
+
+        # ===============================================
+        # Call code - Invoke the training model here
+        # ===============================================
+
+        # Call python module
+        print("\n")
+        print("\tCalling python code to do some random task on input data...")
+        classification_random(inputdir_data, outputpath)
+        print ("\tOutput will be in %s/classification.csv" % outputpath)
+        print("====================================================================================")
 
     def show_man_page(self):
         """
