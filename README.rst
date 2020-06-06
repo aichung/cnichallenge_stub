@@ -74,13 +74,10 @@ Otherwise, visit https://docs.docker.com/install/ for installation directions
 Description
 -----------
 
-``cnichallenge_stub.py`` is a ChRIS-based application that contains an example to randomly classify input data from the 
-	CNI Challenge (www.brainconnectivity.net). The purpose is to demonstrate how this
-	code can be converted into a ChRIS compatible Docker image to submit a trained
-	classification model to the Challenge Evaluation Portal.
+``cnichallenge_stub.py`` is a ChRIS-based application that contains an example to randomly classify input data from the CNI Challenge (www.brainconnectivity.net). The purpose is to demonstrate how this code can be converted into a ChRIS compatible Docker image that can be submitted to the Challenge Evaluation Portal for testing.
 
 
-Agruments
+Arguments
 ---------
 
 .. code::
@@ -130,7 +127,7 @@ to get inline help. The app should also understand being called with only two po
 
     cnichallenge_stub.py /some/input/directory /destination/directory
 
-***For the bare bones example, make sure to download and copy Challenge Training or Validation datasets to the input directory. For data: http://www.brainconnectivity.net/challenge_data.html***
+**For the bare bones example, make sure to download and copy the Challenge Training or Validation datasets to the input directory. For data: http://www.brainconnectivity.net/challenge_data.html**
 
 
 Using ``docker run``
@@ -170,10 +167,11 @@ Classification Model Output Format
 -------------------------------------
 The results from your model should be output into a text file in the following format: 
 
-	Classification labels should be 0 = Controls, 1 = Patient;
-	Prediction probability or score for each subject is required;			
-	The output file should contain comma-separated values and named "classification.csv";
-	Each row must contain the subject ID, the classification label, and the prediction probability (one 			row per subject)
+- Classification labels should be 0 = Controls, 1 = Patient;
+- Prediction probability or score for each subject is required;			
+- The output file should contain comma-separated values and named "classification.csv";
+- Each row must contain the subject ID, the classification label, and the prediction probability (one row per subject):
+	
 .. code:: bash	
 	eg.
 		sub-066,1,0.7269782399142388
