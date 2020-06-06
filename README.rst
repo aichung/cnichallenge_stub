@@ -165,7 +165,7 @@ Our bare bones Docker image can be retrieved (from DockerHub 'aiwc') and execute
 
 Classification Model Output Format
 -------------------------------------
-The results from your model should be output into a text file in the following format: 
+The results from your model should be output into a text file in a specific format for it to be automatically evaluated on the test data:
 
 - Classification labels should be 0 = Controls, 1 = Patient;
 - Prediction probability or score for each subject is required;			
