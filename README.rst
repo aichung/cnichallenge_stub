@@ -58,18 +58,18 @@ Otherwise, visit https://docs.docker.com/install/ for installation directions
 6. Log onto your DockerHub account and create a new repository with automated build.
    In 'Account Settings' -> 'Linked Accounts', connect your GitHub account to DockerHub.
 
-   Then back in your DockerHub home, click the ``Create Repository +``  button. The website page will walk you through setting up the automated build. When prompted for the GitHub repository that you’d like to use for the automated build select the pl-cni_challenge repository that you just forked/cloned. Name the Docker repository ${cni_challenge_DockerRepo} and make it Public.
+   Then back in your DockerHub home, click the ``Create Repository +``  button. The website page will walk you through setting up the automated build. When prompted for the GitHub repository that you’d like to use for the automated build select the pl-cnichallenge_stub repository that you just forked/cloned. Name the Docker repository ${cnichallenge_DockerRepo} and make it Public.
 
    **It is extremely important that you tag your automatically built docker image with an appropriate version number based on your GitHub tags**.
-   Create a new build rule by clicking the ``BUILD RULES +``  button. A good rule good be **Source type:** ``Tag``,
+      Do not delete the default build rule that is already in place, this handles the 'latest' tag for pulling the most recent Docker image.
+   Create a new build rule by clicking the ``BUILD RULES +``  button. A good rule would be **Source type:** ``Tag``,
    **Source:** ``/^[0-9.]+$/`` and **Docker Tag:** ``version-{sourceref}``.
 
-   Do not delete the default build rule that is already in place, this handles the 'latest' tag for pulling the most recent Docker image.
-
    Click ``Create && Build``  button to finish the setup and trigger the automated build.
-   For more information on Automated Builds, please visit https://docs.docker.com/docker-hub/builds/. 
 
-   After the build has completed, the ``cni_challenge`` bare bones example is now available as a Docker image to be pulled from your DockerHub. The link to it will be ${your_Docker_account name}/${cni_challenge_DockerRepo}.
+   After the build has completed, the ``cnichallenge_stub`` bare bones example is now available as a Docker image to be pulled from your DockerHub. The link to it will be ${your_Docker_account name}/${cnichallenge_DockerRepo}.
+   
+   ***${your_Docker_account name}/${cnichallenge_DockerRepo} is the link to copy in our Challenge Evaluation Portal***
 
 Description
 -----------
@@ -80,12 +80,17 @@ Description
 	classification model to the Challenge Evaluation Portal.
 
 
-
 Agruments
 ---------
 
 .. code::
 
+    <inputDir> 
+    Mandatory. A directory which contains Challenge data files.
+        
+    <outputDir>
+    Mandatory. A directory where output will be saved. Must be universally writable to.
+    
     [-v <level>] [--verbosity <level>]
     Verbosity level for app. Not used currently.
 
@@ -102,7 +107,7 @@ Agruments
 Run
 ----
 
-This ``plugin`` can be run in two modes: natively as a python package or as a containerized docker image.
+This ``plugin`` can be run in two modes: natively as a python package or as a containerized Docker image.
 
 Using PyPI
 ~~~~~~~~~~
@@ -125,33 +130,58 @@ to get inline help. The app should also understand being called with only two po
 
     cnichallenge_stub.py /some/input/directory /destination/directory
 
+***For the bare bones example, make sure to download and copy Challenge Training or Validation datasets to the input directory. For data: http://www.brainconnectivity.net/challenge_data.html***
+
 
 Using ``docker run``
 ~~~~~~~~~~~~~~~~~~~~
 
-To run using ``docker``, be sure to assign an "input" directory to ``/incoming`` and an output directory to ``/outgoing``. *Make sure that the* ``$(pwd)/out`` *directory is world writable!*
-
-Now, prefix all calls with 
+Pull the latest ``cnichallenge_stub`` image to your machine and create input and output folders. *Make sure that the* ``$(pwd)/outputDir`` *directory is world writable!*
 
 .. code:: bash
 
-    docker run --rm -v $(pwd)/out:/outgoing                             \
-            fnndsc/pl-cnichallenge_stub cnichallenge_stub.py                        \
+    docker pull ${your_Docker_account name}/${cnichallenge_DockerRepo}
+    mkdir inputDir outputDir && chmod 777 outputDir
 
-Thus, getting inline help is:
+Copy Challenge Test or Validation data from http://www.brainconnectivity.net/challenge_data.html to the input folder.
+
+To run using ``docker``, be sure to assign an "input" directory to ``/incoming`` and an output directory to ``/outgoing``
 
 .. code:: bash
 
-    mkdir in out && chmod 777 out
-    docker run --rm -v $(pwd)/in:/incoming -v $(pwd)/out:/outgoing      \
-            fnndsc/pl-cnichallenge_stub cnichallenge_stub.py                        \
-            --man                                                       \
-            /incoming /outgoing
+    sudo docker run --rm -v $(pwd)/inputDir:/incoming -v $(pwd)/outputDir:/outgoing \
+    ${your_Docker_account name}/${cnichallenge_DockerRepo} cnichallenge_stub.py     \
+    /incoming /outgoing
 
-Examples
---------
+The output file ``classifications.txt``, will be in  ``outputdir``.
+
+Our bare bones Docker image can be retrieved (from DockerHub 'aiwc') and executed (calling 'man') on your machine as follows (with directories 'inputDir' and 'outputDir' as specified above):
+
+.. code:: bash
+
+    docker pull aiwc/pl-cnichallenge_stub
+    sudo docker run --rm -v $(pwd)/inputDir:/incoming -v $(pwd)/outputDir:/outgoing      \
+                 aiwc/pl-cnichallenge_stub cnichallenge_stub.py                          \
+                 --man                                                                   \
+                 /incoming /outgoing
 
 
+Classification Model Output Format
+-------------------------------------
+The results from your model should be output into a text file in the following format: 
 
+	Classification labels should be 0 = Controls, 1 = Patient;
+	Prediction probability or score for each subject is required;			
+	The output file should contain comma-separated values and named "classification.csv";
+	Each row must contain the subject ID, the classification label, and the prediction probability (one 			row per subject)
+.. code:: bash	
+	eg.
+		sub-066,1,0.7269782399142388
+		sub-090,0,0.8111361229380137
+		.
+		.
+		.
+		sub-111,0,0.60761617828937793
+		sub-115,1,0.836589863164504
 
 
