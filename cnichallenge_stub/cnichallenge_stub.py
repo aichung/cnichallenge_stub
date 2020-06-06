@@ -35,12 +35,6 @@ Gstr_title = """
 
 Gstr_synopsis = """
 
-(Edit this in-line help for app specifics. At a minimum, the 
-flags below are supported -- in the case of DS apps, both
-positional arguments <inputDir> and <outputDir>; for FS apps
-only <outputDir> -- and similarly for <in> <out> directories
-where necessary.)
-
     NAME
 
        cnichallenge_stub.py 
@@ -60,17 +54,32 @@ where necessary.)
 
     BRIEF EXAMPLE
 
-        * Bare bones execution
+        * Bare bones execution of a python example to read in IDs from folders names 
+	(assumes CNI Challenge data structure), perform a random task (assigning labels)
+	and outputs to a text file ('classification.csv'):
 
-            mkdir in out && chmod 777 out
-            python cnichallenge_stub.py   \\
-                                in    out
+            > mkdir inputDir outputDir && chmod 777 outputDir
+            > python cnichallenge_stub.py inputDir outputDir
+            
+	N.B. Required data should be in 'inputDir' as provided by CNI Challenge
+	(see https://fnndsc.childrens.harvard.edu/cnichallenge/
+            Output will be outputdir/classification.txt and outputdir/scores.txt.
+
 
     DESCRIPTION
 
-        `cnichallenge_stub.py` ...
+        `cnichallenge_stub.py` contains an example to randomly classify input data from the 
+	CNI Challenge (www.brainconnectivity.net). The purpose is to demonstrate how this
+	code can be converted into a ChRIS compatible Docker image to submit a trained
+	classification model to the Challenge Evaluation Portal.
 
     ARGS
+
+        <inputDir> 
+        Mandatory. A directory which contains Challenge input files.
+        
+        <outputDir>
+        Mandatory. A directory where output will be saved to. Must be universally writable to.
 
         [-h] [--help]
         If specified, show help message and exit.
@@ -98,7 +107,7 @@ where necessary.)
 
 class Cnichalleng_stub(ChrisApp):
     """
-    This stub allows users to populate with their trained model to be containerized via Docker Hub. The resulting Docker image can then be entered into the CNI Challenge Evaluation Portal to execute the classification model on hidden test data, and its performance evaluated..
+    This stub allows users to populate with their trained model to be containerized via Docker Hub. The resulting Docker image can then be entered into the CNI Challenge Evaluation Portal to execute the user's classification model on hidden test data, and its performance evaluated.
     """
     AUTHORS                 = 'AWC (aiwern.chung@childrens.harvard.edu)'
     SELFPATH                = os.path.dirname(os.path.abspath(__file__))
@@ -107,7 +116,7 @@ class Cnichalleng_stub(ChrisApp):
     TITLE                   = 'Example plugin to populate with trained model for CNI Challenge Evaluation Portal'
     CATEGORY                = ''
     TYPE                    = 'ds'
-    DESCRIPTION             = 'This stub allows users to populate with their trained model to be containerized via Docker Hub. The resulting Docker image can then be entered into the CNI Challenge Evaluation Portal to execute the classification model on hidden test data, and its performance evaluated.'
+    DESCRIPTION             = 'This stub is for users to populate with their trained model to be containerized via Docker Hub. The resulting Docker image can then be entered into the CNI Challenge Evaluation Portal (https://fnndsc.childrens.harvard.edu/cnichallenge) to be executed on the hidden test data, and the model performance evaluated.'
     DOCUMENTATION           = 'http://wiki'
     VERSION                 = '0.1'
     ICON                    = '' # url of an icon image
