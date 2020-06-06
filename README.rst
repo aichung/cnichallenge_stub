@@ -16,7 +16,13 @@ pl-cnichallenge_stub
 Abstract
 --------
 
-This stub allows users to populate with their trained model to be containerized via Docker Hub. The resulting Docker image can then be entered into the CNI Challenge Evaluation Portal to execute the classification model on hidden test data, and its performance evaluated.
+This stub was created for the Connectomics in NeuroImaging Challenge that was held at MICCAI: http://www.brainconnectivity.net/challenge.html
+
+This stub is for you to populate with your trained model that is to be containerized via Docker Hub. The resulting Docker image can then be entered into the CNI Challenge Evaluation Portal (https://fnndsc.childrens.harvard.edu/cnichallenge/submit.html). This will run the classification model on our hidden test data, and the performance of the model will be automatically evaluated and printed to screen.
+
+While ``cnichallenge_stub.py`` is coded in Python and contains a bare bones example that is also in Python, models in other languages are possible to include. Such programs need only be called via the os.system() Python function.
+
+``pl-cnichallenge_stub`` is a ChRIS-based application: https://chrisproject.org, created using https://github.com/FNNDSC/cookiecutter-chrisapp.
 
 
 Synopsis
@@ -29,13 +35,51 @@ Synopsis
         [--version]                                                 \
         [--man]                                                     \
         [--meta]                                                    \
-        <inputDir>
-        <outputDir> 
+        <inputDir>  [mandatory]
+        <outputDir> [mandatory]
+
+Installation Requirements and Quick Setup
+----------------------------
+
+1. Install ``Python`` (3.5+) and ``pip`` (which is usually installed with Python)
+2. Create a GitHub account on https://github.com, and install on machine.
+3. Create a DockerHub account on https://hub.docker.com .
+4. Install latest ``Docker`` (17.04.0+) if you want to test your plugin's Docker image and containers on your local machine. 
+   To install on Ubuntu 18.04:      
+      
+.. code:: bash
+
+            apt-get remove docker docker-engine docker.io 
+            apt install docker.io  
+    
+Otherwise, visit https://docs.docker.com/install/ for installation directions
+
+5. Fork this pl-cnichallenge_stub repository to your GitHub.
+6. Log onto your DockerHub account and create a new repository with automated build.
+   In 'Account Settings' -> 'Linked Accounts', connect your GitHub account to DockerHub.
+
+   Then back in your DockerHub home, click the ``Create Repository +``  button. The website page will walk you through setting up the automated build. When prompted for the GitHub repository that you’d like to use for the automated build select the pl-cni_challenge repository that you just forked/cloned. Name the Docker repository ${cni_challenge_DockerRepo} and make it Public.
+
+   **It is extremely important that you tag your automatically built docker image with an appropriate version number based on your GitHub tags**.
+   Create a new build rule by clicking the ``BUILD RULES +``  button. A good rule good be **Source type:** ``Tag``,
+   **Source:** ``/^[0-9.]+$/`` and **Docker Tag:** ``version-{sourceref}``.
+
+   Do not delete the default build rule that is already in place, this handles the 'latest' tag for pulling the most recent Docker image.
+
+   Click ``Create && Build``  button to finish the setup and trigger the automated build.
+   For more information on Automated Builds, please visit https://docs.docker.com/docker-hub/builds/. 
+
+   After the build has completed, the ``cni_challenge`` bare bones example is now available as a Docker image to be pulled from your DockerHub. The link to it will be ${your_Docker_account name}/${cni_challenge_DockerRepo}.
 
 Description
 -----------
 
-``cnichallenge_stub.py`` is a ChRIS-based application that...
+``cnichallenge_stub.py`` is a ChRIS-based application that contains an example to randomly classify input data from the 
+	CNI Challenge (www.brainconnectivity.net). The purpose is to demonstrate how this
+	code can be converted into a ChRIS compatible Docker image to submit a trained
+	classification model to the Challenge Evaluation Portal.
+
+
 
 Agruments
 ---------
