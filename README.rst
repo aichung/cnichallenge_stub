@@ -69,7 +69,7 @@ Otherwise, visit https://docs.docker.com/install/ for installation directions
 
    After the build has completed, the ``cnichallenge_stub`` bare bones example is now available as a Docker image to be pulled from your DockerHub. The link to it will be ${your_Docker_account name}/${cnichallenge_DockerRepo}.
    
-   ***${your_Docker_account name}/${cnichallenge_DockerRepo} is the link to copy in our Challenge Evaluation Portal***
+   ***${your_Docker_account name}/${cnichallenge_DockerRepo} is the link to copy into our Challenge Evaluation Portal***
 
 Description
 -----------
