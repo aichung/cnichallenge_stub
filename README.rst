@@ -20,7 +20,7 @@ Abstract
 
 This stub is for you to populate with your trained model that is to be containerized via Docker Hub. The resulting Docker image can then be entered into the CNI Challenge Evaluation Portal (https://fnndsc.childrens.harvard.edu/cnichallenge/submit.html). This will run the classification model on our hidden test data, and the performance of the model will be automatically evaluated and printed to screen.
 
-While ``cnichallenge_stub.py`` is coded in Python and contains a bare bones example that is also in Python, models in other languages are possible to include. Such programs need only be called via the os.system() Python function.
+While ``cnichallenge_stub.py`` is coded in Python and contains a bare bones example that is also in Python, models in other languages are possible to include. Such programs need only be called via the ``os.system()`` Python function.
 
 ``pl-cnichallenge_stub`` is a ChRIS-based application: https://chrisproject.org, created using https://github.com/FNNDSC/cookiecutter-chrisapp.
 
